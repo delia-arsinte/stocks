@@ -17,7 +17,7 @@ public class SwaggerConfig {
         return new Docket(DocumentationType.SWAGGER_2)
                 .groupName("stocks")
                 .select()
-                .apis(RequestHandlerSelectors.basePackage("com.payqonic.endpoints"))
+                .apis(RequestHandlerSelectors.basePackage("com.payconiq.endpoints"))
                 .paths(PathSelectors.regex("/api/stocks.*"))
                 .build();
     }

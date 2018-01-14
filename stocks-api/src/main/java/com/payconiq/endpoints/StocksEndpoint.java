@@ -3,8 +3,10 @@ package com.payconiq.endpoints;
 import com.payconiq.data.Stock;
 import com.payconiq.data.StocksRepository;
 import com.payconiq.exception.StockNotFoundException;
+import com.payconiq.pojos.UpdatedPrice;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
@@ -15,7 +17,6 @@ import java.util.Optional;
 @RestController
 @RequestMapping("/api/stocks")
 @RequiredArgsConstructor
-@Slf4j
 public class StocksEndpoint {
 
     private final StocksRepository stocksRepository;
@@ -32,20 +33,18 @@ public class StocksEndpoint {
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
-    public void update(@PathVariable("id") Long id, BigDecimal price) {
+    public Stock update(@PathVariable("id") Long id, @RequestBody UpdatedPrice updatedPrice) {
         Stock stock = Optional.ofNullable(stocksRepository.findOne(id)).orElseThrow(()
                 -> new StockNotFoundException(String.format("No stock was found for id [%s]", id)));
 
-        stock.setCurrentPrice(price);
+        stock.setCurrentPrice(updatedPrice.getCurrentPrice());
         stock.setLastUpdateTime(LocalDateTime.now());
 
-        stocksRepository.save(stock);
-
-        log.info("Updated stock with id {} successfully", id);
+        return stocksRepository.save(stock);
     }
 
     @RequestMapping(method = RequestMethod.POST)
-    public void create(@RequestBody Stock stock) {
-        stocksRepository.save(stock);
+    public ResponseEntity<Stock> create(@RequestBody Stock stock) {
+        return new ResponseEntity<>(stocksRepository.save(stock), HttpStatus.CREATED);
     }
 }

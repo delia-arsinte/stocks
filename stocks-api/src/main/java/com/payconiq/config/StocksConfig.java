@@ -6,8 +6,8 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 @Configuration
-@EnableJpaRepositories(basePackages = {"com.payqonic.data"})
-@ComponentScan(basePackages = {"com.payqonic"})
-@EntityScan(basePackages = {"com.payqonic.data"})
+@EnableJpaRepositories(basePackages = {"com.payconiq.data"})
+@ComponentScan(basePackages = {"com.payconiq"})
+@EntityScan(basePackages = {"com.payconiq.data"})
 public class StocksConfig {
 }

@@ -1,8 +1,8 @@
-package com.payqonic.endpoints;
+package com.payconiq.endpoints;
 
-import com.payqonic.data.Stock;
-import com.payqonic.data.StocksRepository;
-import com.payqonic.exception.StockNotFoundException;
+import com.payconiq.data.Stock;
+import com.payconiq.data.StocksRepository;
+import com.payconiq.exception.StockNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;

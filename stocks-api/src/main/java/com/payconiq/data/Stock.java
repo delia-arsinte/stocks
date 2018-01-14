@@ -1,4 +1,4 @@
-package com.payqonic.data;
+package com.payconiq.data;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;

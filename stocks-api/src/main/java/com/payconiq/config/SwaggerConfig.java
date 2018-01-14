@@ -1,4 +1,4 @@
-package com.payqonic.config;
+package com.payconiq.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

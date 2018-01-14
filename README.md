@@ -1,6 +1,8 @@
 # Getting started
 
-1. mvn spring-boot:run
+1. Run the application from command line: `mvn spring-boot:run`
+2. All endpoints are accessible at http://localhost:8080/api/stocks
+3. Swagger documentation is available at http://localhost:8080/swagger-ui.html
 
 ## Configuration
 

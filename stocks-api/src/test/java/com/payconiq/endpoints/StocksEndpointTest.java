@@ -1,10 +1,8 @@
 package com.payconiq.endpoints;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.payqonic.data.Stock;
-import com.payqonic.data.StocksRepository;
-import com.payqonic.endpoints.StocksControllerAdvice;
-import com.payqonic.endpoints.StocksEndpoint;
+import com.payconiq.data.Stock;
+import com.payconiq.data.StocksRepository;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.InjectMocks;

@@ -1,0 +1,46 @@
+databaseChangeLog:
+  - changeSet:
+      id: 1
+      author: dvasile
+      changes:
+        - createTable:
+            tableName: stocks
+            columns:
+              - column:
+                  name: id
+                  type: int
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: name
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: current_price
+                  type: decimal
+                  constraints:
+                    nullable: false
+              - column:
+                  name: last_update_time
+                  type: timestamp
+                  constraints:
+                     nullable: false
+  - changeSet:
+      id: 2
+      author: dvasile
+      changes:
+        - insert:
+            tableName: stocks
+            columns:
+              - column:
+                  name: name
+                  value: Google
+              - column:
+                  name: current_price
+                  value: 200.5
+              - column:
+                  name: last_update_time
+                  valueDate: CURRENT TIMESTAMP

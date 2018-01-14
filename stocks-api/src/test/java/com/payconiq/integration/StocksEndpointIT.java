@@ -33,33 +33,35 @@ public class StocksEndpointIT {
 
         assertEquals(HttpStatus.OK, response.getStatusCode());
         List<Stock> responseBody = response.getBody();
-        assertEquals(1, responseBody.size());
+        assertEquals(2, responseBody.size());
 
-        Stock stock = responseBody.get(0);
-        assertEquals("Google", stock.getName());
-        assertEquals(new BigDecimal(200.5), stock.getCurrentPrice());
+        Stock googleStock = responseBody.get(0);
+        assertEquals("Google", googleStock.getName());
+
+        Stock appleStock = responseBody.get(1);
+        assertEquals("Apple", appleStock.getName());
     }
 
     @Test
     public void findOne() {
-        ResponseEntity<Stock> response = restTemplate.exchange("/api/stocks/1", HttpMethod.GET, null, Stock.class);
+        ResponseEntity<Stock> response = restTemplate.exchange("/api/stocks/2", HttpMethod.GET, null, Stock.class);
         assertEquals(HttpStatus.OK, response.getStatusCode());
 
         Stock stock = response.getBody();
-        assertEquals("Google", stock.getName());
-        assertEquals(new BigDecimal(200.5), stock.getCurrentPrice());
+        assertEquals("Apple", stock.getName());
+        assertEquals(new BigDecimal(300.5), stock.getCurrentPrice());
     }
 
     @Test
     public void findOneNotFound() {
-        ResponseEntity<Stock> response = restTemplate.exchange("/api/stocks/2", HttpMethod.GET, null, Stock.class);
+        ResponseEntity<Stock> response = restTemplate.exchange("/api/stocks/200", HttpMethod.GET, null, Stock.class);
         assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
     }
 
     @Test
     public void saveOne() {
         Stock stock = Stock.builder()
-                .name("Apple")
+                .name("Facebook")
                 .lastUpdateTime(LocalDateTime.of(2018, 1, 14, 15, 34))
                 .currentPrice(new BigDecimal(105.5))
                 .build();

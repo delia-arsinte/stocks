@@ -3,6 +3,7 @@ package com.payconiq.endpoints;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.payconiq.data.Stock;
 import com.payconiq.data.StocksRepository;
+import com.payconiq.pojos.UpdatedPrice;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.InjectMocks;
@@ -126,7 +127,7 @@ public class StocksEndpointTest {
                 .build();
         ResultActions resultActions = mvc.perform(post("/api/stocks")
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(convertStockToJson(stock)));
+                .content(convertItemToJson(stock)));
 
         verify(stocksRepository, times(1)).save(stock);
 
@@ -145,13 +146,16 @@ public class StocksEndpointTest {
 
         ResultActions resultActions = mvc.perform(post("/api/stocks")
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(convertStockToJson(stock)));
+                .content(convertItemToJson(stock)));
 
         resultActions.andExpect(status().isInternalServerError());
     }
 
     @Test
     public void updatesOne() throws Exception {
+        UpdatedPrice price = new UpdatedPrice();
+        price.setCurrentPrice(new BigDecimal(500.5));
+
         Stock stock = Stock.builder()
                 .currentPrice(new BigDecimal(200))
                 .lastUpdateTime(LocalDateTime.of(2018, 1, 13, 20, 1))
@@ -160,22 +164,30 @@ public class StocksEndpointTest {
 
         when(stocksRepository.findOne(Mockito.anyLong())).thenReturn(stock);
 
-        ResultActions resultActions = mvc.perform(put("/api/stocks/1").param("price", "300"));
+        ResultActions resultActions = mvc.perform(put("/api/stocks/1")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(convertItemToJson(price)));
+
         resultActions.andExpect(status().is2xxSuccessful());
         verify(stocksRepository, times(1)).save(stock);
     }
 
     @Test
     public void updatesOneNotFound() throws Exception {
+        UpdatedPrice price = new UpdatedPrice();
+        price.setCurrentPrice(new BigDecimal(500.5));
+
         when(stocksRepository.findOne(Mockito.anyLong())).thenReturn(null);
 
-        ResultActions resultActions = mvc.perform(put("/api/stocks/1").param("price", "300"));
+        ResultActions resultActions = mvc.perform(put("/api/stocks/1")
+                .contentType(MediaType.APPLICATION_JSON_UTF8)
+                .content(convertItemToJson(price)));
         resultActions.andExpect(status().isNotFound());
     }
 
-    private byte[] convertStockToJson(Stock stock) throws IOException {
+    private byte[] convertItemToJson(Object item) throws IOException {
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-        new ObjectMapper().writeValue(outputStream, stock);
+        new ObjectMapper().writeValue(outputStream, item);
         return outputStream.toByteArray();
     }
 

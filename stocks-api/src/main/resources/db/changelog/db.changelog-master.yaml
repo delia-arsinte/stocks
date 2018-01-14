@@ -44,3 +44,15 @@ databaseChangeLog:
               - column:
                   name: last_update_time
                   valueDate: CURRENT TIMESTAMP
+        - insert:
+            tableName: stocks
+            columns:
+              - column:
+                  name: name
+                  value: Apple
+              - column:
+                  name: current_price
+                  value: 300.5
+              - column:
+                  name: last_update_time
+                  valueDate: CURRENT TIMESTAMP

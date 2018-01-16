@@ -16,6 +16,7 @@
 
     <modules>
         <module>stocks-api</module>
+        <module>performance</module>
     </modules>
 
 

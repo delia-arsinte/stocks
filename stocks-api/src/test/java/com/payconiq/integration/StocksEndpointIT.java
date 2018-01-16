@@ -28,7 +28,9 @@ public class StocksEndpointIT {
     @Test
     public void findsAll() {
         ResponseEntity<List<Stock>> response =
-                restTemplate.exchange("/api/stocks", HttpMethod.GET, null, new ParameterizedTypeReference<List<Stock>>() {
+                restTemplate
+                        .withBasicAuth("user", "password")
+                        .exchange("/api/stocks", HttpMethod.GET, null, new ParameterizedTypeReference<List<Stock>>() {
         });
 
         assertEquals(HttpStatus.OK, response.getStatusCode());
@@ -44,7 +46,9 @@ public class StocksEndpointIT {
 
     @Test
     public void findOne() {
-        ResponseEntity<Stock> response = restTemplate.exchange("/api/stocks/2", HttpMethod.GET, null, Stock.class);
+        ResponseEntity<Stock> response = restTemplate
+                .withBasicAuth("user", "password")
+                .exchange("/api/stocks/2", HttpMethod.GET, null, Stock.class);
         assertEquals(HttpStatus.OK, response.getStatusCode());
 
         Stock stock = response.getBody();
@@ -54,7 +58,9 @@ public class StocksEndpointIT {
 
     @Test
     public void findOneNotFound() {
-        ResponseEntity<Stock> response = restTemplate.exchange("/api/stocks/200", HttpMethod.GET, null, Stock.class);
+        ResponseEntity<Stock> response = restTemplate
+                .withBasicAuth("user", "password")
+                .exchange("/api/stocks/200", HttpMethod.GET, null, Stock.class);
         assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
     }
 
@@ -68,7 +74,9 @@ public class StocksEndpointIT {
 
         HttpEntity<Stock> httpEntity = new HttpEntity<>(stock);
 
-        ResponseEntity<Stock> response = restTemplate.exchange("/api/stocks", HttpMethod.POST, httpEntity, Stock.class);
+        ResponseEntity<Stock> response = restTemplate
+                .withBasicAuth("admin", "admin")
+                .exchange("/api/stocks", HttpMethod.POST, httpEntity, Stock.class);
         assertEquals(HttpStatus.CREATED, response.getStatusCode());
 
         Stock actualStock = response.getBody();
@@ -88,7 +96,9 @@ public class StocksEndpointIT {
                 .build();
 
         HttpEntity<Stock> httpEntity = new HttpEntity<>(stock);
-        ResponseEntity<String> response = restTemplate.exchange("/api/stocks", HttpMethod.POST, httpEntity, String.class);
+        ResponseEntity<String> response = restTemplate
+                .withBasicAuth("admin", "admin")
+                .exchange("/api/stocks", HttpMethod.POST, httpEntity, String.class);
 
         assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
     }
@@ -101,7 +111,9 @@ public class StocksEndpointIT {
                 .build();
 
         HttpEntity<Stock> httpEntity = new HttpEntity<>(stock);
-        ResponseEntity<String> response = restTemplate.exchange("/api/stocks", HttpMethod.POST, httpEntity, String.class);
+        ResponseEntity<String> response = restTemplate
+                .withBasicAuth("admin", "admin")
+                .exchange("/api/stocks", HttpMethod.POST, httpEntity, String.class);
 
         assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
     }
@@ -114,7 +126,9 @@ public class StocksEndpointIT {
                 .build();
 
         HttpEntity<Stock> httpEntity = new HttpEntity<>(stock);
-        ResponseEntity<String> response = restTemplate.exchange("/api/stocks", HttpMethod.POST, httpEntity, String.class);
+        ResponseEntity<String> response = restTemplate
+                .withBasicAuth("admin", "admin")
+                .exchange("/api/stocks", HttpMethod.POST, httpEntity, String.class);
 
         assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
     }
@@ -125,7 +139,9 @@ public class StocksEndpointIT {
         updatedPrice.setCurrentPrice(new BigDecimal(500.5));
         HttpEntity<UpdatedPrice> request = new HttpEntity<>(updatedPrice);
 
-        ResponseEntity<Stock> response = restTemplate.exchange("/api/stocks/1", HttpMethod.PUT, request,
+        ResponseEntity<Stock> response = restTemplate
+                .withBasicAuth("admin", "admin")
+                .exchange("/api/stocks/1", HttpMethod.PUT, request,
                 Stock.class);
 
         assertEquals(HttpStatus.OK, response.getStatusCode());
@@ -140,8 +156,9 @@ public class StocksEndpointIT {
         updatedPrice.setCurrentPrice(new BigDecimal(500.5));
         HttpEntity<UpdatedPrice> request = new HttpEntity<>(updatedPrice);
 
-        ResponseEntity<Stock> response = restTemplate.exchange("/api/stocks/10", HttpMethod.PUT, request,
-                Stock.class);
+        ResponseEntity<Stock> response = restTemplate
+                .withBasicAuth("admin", "admin")
+                .exchange("/api/stocks/10", HttpMethod.PUT, request, Stock.class);
 
         assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
     }
@@ -152,8 +169,9 @@ public class StocksEndpointIT {
         headers.setContentType(MediaType.APPLICATION_JSON);
         HttpEntity<String> request = new HttpEntity<>("{ \"currentPrice\" : \"blah\" }", headers);
 
-        ResponseEntity<Stock> response = restTemplate.exchange("/api/stocks/1", HttpMethod.PUT, request,
-                Stock.class);
+        ResponseEntity<Stock> response = restTemplate
+                .withBasicAuth("admin", "admin")
+                .exchange("/api/stocks/1", HttpMethod.PUT, request, Stock.class);
 
         assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
     }

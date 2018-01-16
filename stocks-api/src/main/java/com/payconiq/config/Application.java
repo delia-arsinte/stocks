@@ -9,7 +9,7 @@ import org.springframework.context.annotation.Import;
 
 @SpringBootApplication
 @EnableAutoConfiguration
-@Import({StocksConfig.class, SwaggerConfig.class})
+@Import({StocksConfig.class, SwaggerConfig.class, SecurityConfig.class})
 public class Application extends SpringBootServletInitializer {
 
     @Override

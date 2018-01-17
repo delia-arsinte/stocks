@@ -15,21 +15,18 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
         auth.inMemoryAuthentication()
                 .withUser("user").password("password")
-                .authorities("VIEW");
-
-        auth.inMemoryAuthentication()
+                .authorities("VIEW")
+                .and()
                 .withUser("admin")
                 .password("admin")
                 .roles("UPDATE");
-
     }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.authorizeRequests()
+        http.csrf().disable()
+                .authorizeRequests()
                 .antMatchers("**/api/stocks/**").permitAll()
-                .antMatchers("**/health/**").anonymous()
-                .antMatchers("**/metrics/**").anonymous()
                 .anyRequest().authenticated()
                 .and()
                 .httpBasic()

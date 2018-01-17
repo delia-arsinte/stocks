@@ -6,6 +6,7 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 
 @Configuration
 @EnableWebSecurity
@@ -15,21 +16,23 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
         auth.inMemoryAuthentication()
                 .withUser("user").password("password")
-                .authorities("VIEW");
-
-        auth.inMemoryAuthentication()
+                .authorities("VIEW")
+                .and()
                 .withUser("admin")
                 .password("admin")
-                .roles("UPDATE");
-
+                .roles("UPDATE")
+                .and()
+                .withUser("management")
+                .password("management")
+                .roles("ADMIN");
     }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.authorizeRequests()
+        http.csrf()
+                .disable()
+                .authorizeRequests()
                 .antMatchers("**/api/stocks/**").permitAll()
-                .antMatchers("**/health/**").anonymous()
-                .antMatchers("**/metrics/**").anonymous()
                 .anyRequest().authenticated()
                 .and()
                 .httpBasic()

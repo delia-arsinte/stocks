@@ -3,16 +3,18 @@ package com.payconiq.integration;
 import com.payconiq.config.Application;
 import com.payconiq.data.Stock;
 import com.payconiq.pojos.UpdatedPrice;
-import java.math.BigDecimal;
-import java.time.LocalDateTime;
-import java.util.List;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.http.*;
 import org.springframework.test.context.junit4.SpringRunner;
+
+import java.math.BigDecimal;
+import java.time.LocalDateTime;
+import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 

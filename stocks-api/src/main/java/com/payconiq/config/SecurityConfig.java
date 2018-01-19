@@ -19,19 +19,16 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .withUser("admin")
                 .password("admin")
-                .roles("UPDATE")
-                .and()
-                .withUser("management")
-                .password("management")
-                .roles("ADMIN");
+                .roles("UPDATE");
     }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.csrf()
-                .disable()
+        http.csrf().disable()
                 .authorizeRequests()
                 .antMatchers("**/api/stocks/**").permitAll()
+                .antMatchers("**/health/**").anonymous()
+                .antMatchers("**/metrics/**").anonymous()
                 .anyRequest().authenticated()
                 .and()
                 .httpBasic()
